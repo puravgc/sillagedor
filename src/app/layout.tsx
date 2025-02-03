@@ -21,9 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} antialiased h-screen w-screen`}>
+      <body
+        className={`${montserrat.variable} antialiased max-h-screen w-screen flex flex-col`}
+      >
         <Navbar />
-        <div className="">{children}</div>
+        <div className="flex-1 overflow-auto overflow-x-hidden w-full">
+          {children}
+        </div>
       </body>
     </html>
   );

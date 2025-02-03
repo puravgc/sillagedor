@@ -52,43 +52,46 @@ export function CarouselSize() {
   };
 
   return (
-    <Swiper
-      modules={[Navigation]}
-      navigation
-      spaceBetween={20}
-      slidesPerView={2}
-      pagination={{ clickable: true }}
-      className="w-full max-w-xl"
-    >
-      {perfumes.map((perfume) => (
-        <SwiperSlide key={perfume.id} className="mb-5">
-          <motion.div
-            variants={textContainer}
-            initial="hidden"
-            animate="visible"
-            className=" flex flex-col items-center shadow-lg rounded-xl pb-5 relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 bg-red-600 p-1">
-              {" "}
-              <p className="text-sm">Best Seller</p>
-            </div>
+    <motion.div variants={textContainer} initial="hidden" animate="visible">
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        spaceBetween={20}
+        slidesPerView={2}
+        pagination={{ clickable: true }}
+        className="w-full max-w-xl"
+      >
+        {perfumes.map((perfume) => (
+          <SwiperSlide key={perfume.id} className="mb-5">
+            <motion.div
+              variants={textContainer}
+              initial="hidden"
+              animate="visible"
+              className=" flex flex-col items-center shadow-lg rounded-xl pb-5 relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 bg-gray-500 p-1">
+                {" "}
+                <p className="text-sm text-white">Best Seller</p>
+              </div>
 
-            <Image
-              src={perfume.image}
-              alt={perfume.name}
-              width={200}
-              height={200}
-              className=" object-cover w-full rounded-xl"
-            />
-            <h2 className="text-xl mt-2">{perfume.name}</h2>
-            <div className="flex gap-5">
-              {" "}
-              <p className="text-gray-600 text-lg line-through">$200</p>
-              <p className="text-gray-600 text-lg">{perfume.price}</p>
-            </div>
-          </motion.div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+              <Image
+                src={perfume.image}
+                alt={perfume.name}
+                width={200}
+                height={200}
+                className=" object-cover w-full rounded-xl"
+              />
+
+              <h2 className="text-xl mt-2">{perfume.name}</h2>
+              <div className="flex gap-5">
+                {" "}
+                <p className="text-gray-600 text-lg line-through">$200</p>
+                <p className="text-gray-600 text-lg">{perfume.price}</p>
+              </div>
+            </motion.div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </motion.div>
   );
 }
