@@ -3,7 +3,7 @@ import Marquee from "react-fast-marquee";
 
 const Trending = () => {
   return (
-    <div className="h-screen">
+    <div className="h-screen mt-10">
       <Marquee
         className="text-8xl font-bold strokeme overflow-hidden"
         speed={150}

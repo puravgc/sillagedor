@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -94,4 +96,8 @@ body {
 
   text-shadow: -1px -1px 0 #555, 1px -1px 0 #555, -1px 1px 0 #555,
     2px 2px 0 #555;
+}
+
+.custom-font {
+  font-family: "Roboto Slab", serif;
 }

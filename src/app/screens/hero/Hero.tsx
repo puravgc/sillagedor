@@ -24,9 +24,9 @@ const Hero = () => {
     <div className="h-full w-full px-5">
       <div className="flex flex-col md:flex-row justify-between h-full mt-20">
         {/* Text Section */}
-        <div className="text-4xl md:text-6xl flex flex-col font-extrabold text-center md:text-left p-10">
+        <div className="text-4xl md:text-7xl flex flex-col text-center md:text-left p-10">
           <motion.div
-            className="w-full text-gray-600"
+            className="w-full text-gray-600 custom-font"
             variants={textContainer}
             initial="hidden"
             animate="visible"
