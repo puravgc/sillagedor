@@ -5,7 +5,7 @@ import Quantity from "@/components/ui/quantity";
 
 const Trending = () => {
   return (
-    <div className="my-10">
+    <div className="mt-16 mb-44">
       {/* Marquee Section */}
       <div className="mb-16">
         <Marquee
