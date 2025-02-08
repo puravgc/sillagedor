@@ -10,9 +10,9 @@ const Collection = () => {
   ];
 
   return (
-    <div className="pb-8">
+    <div className=" h-screen">
       {/* Title */}
-      <div className="w-full flex justify-center mb-10">
+      <div className="w-full flex justify-center mb-20">
         <h1 className="text-6xl font-bold text-gray-800 strokeme">
           Collection
         </h1>

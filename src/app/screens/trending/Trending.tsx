@@ -5,9 +5,9 @@ import Quantity from "@/components/ui/quantity";
 
 const Trending = () => {
   return (
-    <div className="mt-16 mb-44">
+    <div className="mt-16 h-screen flex flex-col justify-around">
       {/* Marquee Section */}
-      <div className="mb-16">
+      <div className="">
         <Marquee
           className="text-8xl font-bold strokeme overflow-hidden"
           speed={150}
@@ -48,6 +48,10 @@ const Trending = () => {
             <div className="flex gap-5 mt-10">
               <p className="text-2xl line-through">$65</p>
               <p className="text-2xl font-semibold">$35</p>
+            </div>
+            <div className="rounded-xl bg-gray-600 w-fit text-white px-3 text-sm">
+              {" "}
+              <p>Sale</p>
             </div>
 
             {/* Quantity Selector */}
@@ -90,6 +94,10 @@ const Trending = () => {
             <div className="flex gap-5 mt-10">
               <p className="text-2xl line-through">$200</p>
               <p className="text-2xl font-semibold">$160</p>
+            </div>
+            <div className="rounded-xl bg-gray-600 w-fit text-white px-3 text-sm">
+              {" "}
+              <p>Sale</p>
             </div>
 
             {/* Quantity Selector */}
