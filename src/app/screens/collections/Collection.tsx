@@ -10,7 +10,7 @@ const Collection = () => {
   ];
 
   return (
-    <div className=" h-screen">
+    <div className=" mb-44 p-5">
       {/* Title */}
       <div className="w-full flex justify-center mb-20">
         <h1 className="text-6xl font-bold text-gray-800 strokeme">
