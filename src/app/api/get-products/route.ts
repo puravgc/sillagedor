@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import PerfumeProduct from "@/model/PerfumeModel";
+import PerfumeModel from "@/model/PerfumeModel";
 import connectToDatabase from "@/lib/db";
 
 export async function GET(req: NextRequest) {
   try {
     await connectToDatabase();
-    const perfume = await PerfumeProduct.find({});
+    const perfume = await PerfumeModel.find({});
     if (!perfume) {
       return NextResponse.json({ message: "perfume not found" });
     }

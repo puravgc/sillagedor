@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-// Define the perfume product schema
-const perfumeProductSchema = new mongoose.Schema(
+const perfumeModelSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -22,7 +21,7 @@ const perfumeProductSchema = new mongoose.Schema(
       required: true,
     },
     tags: {
-      type: [String], // e.g., ["men", "unisex", "luxury"]
+      type: [String],
       enum: ["men", "women", "unisex", "luxury"],
       required: true,
     },
@@ -60,10 +59,11 @@ const perfumeProductSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true } // Automatically adds createdAt and updatedAt fields
+  { timestamps: true }
 );
 
-// Create the model based on the schema
-const PerfumeProduct = mongoose.model("PerfumeProduct", perfumeProductSchema);
+const PerfumeModel =
+  mongoose.models.PerfumeModel ||
+  mongoose.model("PerfumeModel", perfumeModelSchema);
 
-module.exports = PerfumeProduct;
+module.exports = PerfumeModel;
