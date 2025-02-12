@@ -3,7 +3,8 @@ import { CarouselSize } from "@/app/components/carousel/Carousel";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect } from "react";
 
 const textContainer = {
   hidden: { opacity: 0, y: 50 },
@@ -20,6 +21,8 @@ const textItem = {
 };
 
 const Hero = () => {
+ 
+
   return (
     <div className="h-full w-full px-5">
       <div className="flex flex-col md:flex-row justify-between h-full mt-20">
@@ -39,9 +42,11 @@ const Hero = () => {
               one fragrance at a time.
             </motion.span>
             <div className="text-xl mt-5">
-              <Button className="p-6 bg-transparent border border-gray-400 text-gray-700 hover:bg-gray-600 hover:text-white">
-                Shop Now
-              </Button>
+              <Link href="/shop">
+                <Button className="p-6 bg-transparent border border-gray-400 text-gray-700 hover:bg-gray-600 hover:text-white">
+                  Shop Now
+                </Button>
+              </Link>
             </div>
           </motion.div>
 

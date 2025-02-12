@@ -28,7 +28,7 @@ const Card: React.FC<CardProps> = ({ name, brand, price, rating, image }) => {
           {name}
         </h2>
         <p className="text-gray-500">{brand}</p>
-        <p className="text-lg font-bold mt-1">{price}</p>
+        <p className="text-lg font-bold mt-1">${price}</p>
         <p className="text-yellow-500">⭐ {rating}</p>
       </div>
     </div>
