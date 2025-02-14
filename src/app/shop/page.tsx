@@ -2,8 +2,10 @@
 import Card from "@/app/components/card/Card";
 import { useEffect, useState } from "react";
 import { BounceLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
 
 const PerfumeCollection = () => {
+  const router = useRouter();
   const [perfumes, setperfumes] = useState([]);
   const [loading, setloading] = useState(false);
   const fetchData = async () => {
@@ -29,6 +31,11 @@ const PerfumeCollection = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handlePerfume = (id) => {
+    router.push(`/shop/${id}`);
+  };
+
   return (
     <div className="p-10">
       <h1 className="text-4xl font-bold mb-8 text-center">Products</h1>
@@ -39,14 +46,21 @@ const PerfumeCollection = () => {
       ) : (
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
           {perfumes.map((perfume, index) => (
-            <Card
-              name={perfume.name}
-              brand={perfume.brand}
-              price={perfume.discountedPrice}
-              rating={perfume.rating}
-              image={perfume.image}
-              key={index}
-            />
+            <div
+              onClick={() => {
+                handlePerfume(perfume._id);
+              }}
+            >
+              {" "}
+              <Card
+                name={perfume.name}
+                brand={perfume.brand}
+                price={perfume.discountedPrice}
+                rating={perfume.rating}
+                image={perfume.image}
+                key={index}
+              />
+            </div>
           ))}
         </div>
       )}
