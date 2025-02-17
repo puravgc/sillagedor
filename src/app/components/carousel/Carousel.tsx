@@ -79,7 +79,7 @@ export function CarouselSize() {
                 variants={textContainer}
                 initial="hidden"
                 animate="visible"
-                className=" flex flex-col items-center shadow-lg rounded-xl pb-5 relative overflow-hidden"
+                className=" flex flex-col items-center shadow-lg rounded-xl pb-5 relative overflow-hidden cursor-pointer"
               >
                 <div className="absolute top-0 left-0 bg-gray-500 p-1">
                   {" "}
