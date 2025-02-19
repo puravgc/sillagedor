@@ -8,8 +8,10 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { BounceLoader } from "react-spinners";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function CarouselSize() {
+  const router = useRouter();
   const [bestsellers, setbestsellers] = useState([]);
   const [loading, setloading] = useState(false);
 
@@ -80,6 +82,9 @@ export function CarouselSize() {
                 initial="hidden"
                 animate="visible"
                 className=" flex flex-col items-center shadow-lg rounded-xl pb-5 relative overflow-hidden cursor-pointer"
+                onClick={() => {
+                  router.push(`/shop/${perfume._id}`);
+                }}
               >
                 <div className="absolute top-0 left-0 bg-gray-500 p-1">
                   {" "}

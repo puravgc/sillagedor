@@ -1,6 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { MoonLoader } from "react-spinners";
 
 interface Perfume {
   _id: string;
@@ -46,7 +47,7 @@ const ProductPage = () => {
   if (loading)
     return (
       <div className="flex items-center justify-center h-screen text-xl font-semibold">
-        Loading...
+        <MoonLoader color="#000" size={50} />
       </div>
     );
 
@@ -58,41 +59,50 @@ const ProductPage = () => {
     );
 
   return (
-    <div className="h-screen w-full flex items-center justify-center  p-6">
-      <div className="max-w-5xl w-full flex flex-col md:flex-row  shadow-2xl rounded-2xl overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center p-6 ">
+      <div className="max-w-6xl w-full flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden transition-all hover:shadow-3xl">
         {/* Image Section */}
-        <div className="md:w-1/2 h-[500px]">
+        <div className="md:w-1/2 h-[600px] relative pl-5">
           <img
             src={perfume.image}
             alt={perfume.name}
             className="w-full h-full object-cover"
           />
+          {perfume.bestSeller && (
+            <div className="absolute top-4 left-4 bg-yellow-500 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-md">
+              Best Seller
+            </div>
+          )}
         </div>
 
         {/* Info Section */}
-        <div className="p-8 md:w-1/2 flex flex-col justify-between">
+        <div className="p-10 md:w-1/2 flex flex-col justify-between space-y-6">
           <div>
-            <h2 className="text-5xl font-bold text-gray-900">{perfume.name}</h2>
-            <p className="text-gray-600 mt-2">{perfume.description}</p>
+            <h2 className="text-5xl font-bold text-gray-900 mb-4">
+              {perfume.name}
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              {perfume.description}
+            </p>
 
             {/* Price */}
-            <div className="flex items-center mt-4">
-              <span className="text-2xl font-bold text-gray-900">
+            <div className="flex items-center mt-6">
+              <span className="text-3xl font-bold text-gray-900">
                 ${perfume.discountedPrice}
               </span>
               {perfume.discountPercentage > 0 && (
-                <span className="ml-3 text-lg text-gray-500 line-through">
+                <span className="ml-4 text-xl text-gray-500 line-through">
                   ${perfume.originalPrice}
                 </span>
               )}
             </div>
 
             {/* Tags */}
-            <div className="flex space-x-2 mt-4">
+            <div className="flex flex-wrap gap-2 mt-6">
               {perfume.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-semibold uppercase bg-gray-800 text-white px-3 py-1 rounded-full"
+                  className="text-sm font-semibold uppercase bg-gray-800 text-white px-3 py-1 rounded-full"
                 >
                   {tag}
                 </span>
@@ -100,43 +110,48 @@ const ProductPage = () => {
             </div>
 
             {/* Rating */}
-            <div className="flex items-center mt-4">
-              <span className="text-yellow-500 text-lg">
+            <div className="flex items-center mt-6">
+              <span className="text-yellow-500 text-2xl">
                 {"★".repeat(perfume.rating)}
               </span>
-              <span className="ml-2 text-gray-500">({perfume.rating}/5)</span>
+              <span className="ml-2 text-gray-500 text-lg">
+                ({perfume.rating}/5)
+              </span>
             </div>
 
             {/* Brand & Stock */}
-            <p className="text-gray-700 mt-4">
-              <span className="font-semibold">Brand:</span> {perfume.brand}
-            </p>
-            <p className="text-gray-700 mt-2">
-              <span className="font-semibold">Stock:</span>{" "}
-              {perfume.stock > 0 ? perfume.stock : "Out of Stock"}
-            </p>
+            <div className="mt-6 space-y-2">
+              <p className="text-gray-700 text-lg">
+                <span className="font-semibold">Brand:</span> {perfume.brand}
+              </p>
+              <p className="text-gray-700 text-lg">
+                <span className="font-semibold">Stock:</span>{" "}
+                {perfume.stock > 0 ? (
+                  <span className="text-green-600">
+                    {perfume.stock} available
+                  </span>
+                ) : (
+                  <span className="text-red-600">Out of Stock</span>
+                )}
+              </p>
+            </div>
 
             {/* Release Date */}
-            <p className="text-gray-700 mt-2">
+            <p className="text-gray-700 text-lg mt-4">
               <span className="font-semibold">Release Date:</span>{" "}
               {new Date(perfume.releaseDate).toLocaleDateString()}
             </p>
-
-            {/* Best Seller Badge */}
-            {perfume.bestSeller && (
-              <div className="mt-4 p-2 bg-yellow-500 text-white text-sm font-semibold rounded-lg inline-block">
-                Best Seller
-              </div>
-            )}
           </div>
 
-          {/* Add to Cart Button */}
-          <button className="mt-6  text-black py-3 px-6 rounded-lg hover:border-2 transition text-lg border border-gray-600">
-            Add to Cart
-          </button>
-          <button className="mt-6 bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition text-lg font-semibold">
-            Buy Now
-          </button>
+          {/* Buttons */}
+          <div className="flex flex-col space-y-4">
+            <button className="w-full py-3 px-6 text-lg font-semibold text-white bg-black rounded-lg hover:bg-gray-800 transition-colors duration-300">
+              Buy Now
+            </button>
+            <button className="w-full py-3 px-6 text-lg font-semibold text-black border-2 border-gray-600 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>

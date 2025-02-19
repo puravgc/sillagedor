@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/app/components/card/Card";
 import { useEffect, useState } from "react";
-import { BounceLoader } from "react-spinners";
+import { MoonLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 
 const PerfumeCollection = () => {
@@ -41,7 +41,7 @@ const PerfumeCollection = () => {
       <h1 className="text-4xl font-bold mb-8 text-center">Products</h1>
       {loading ? (
         <div className="w-full flex justify-center items-center">
-          <BounceLoader />
+          <MoonLoader />
         </div>
       ) : (
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8">
