@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
+import SessionProviderWrapper from "@/app/components/session/SessionProviderWrapper";
 
 // Import Montserrat font
 const montserrat = Montserrat({
@@ -25,11 +26,13 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} antialiased max-h-screen w-screen flex flex-col`}
       >
-        <Navbar />
-        <div className="flex-1 overflow-auto overflow-x-hidden w-full">
-          {children}
-          <Footer />
-        </div>
+        <SessionProviderWrapper>
+          <Navbar />
+          <div className="flex-1 overflow-auto overflow-x-hidden w-full">
+            {children}
+            <Footer />
+          </div>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
