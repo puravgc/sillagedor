@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { IoMenuOutline } from "react-icons/io5";
@@ -14,8 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
+import LoginModal from "@/app/components/loginmodal/LoginModal";
 
 export default function Navbar() {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   return (
     <header className="">
       <div className="container mx-auto flex items-center justify-between">
@@ -55,7 +57,11 @@ export default function Navbar() {
         <div className="flex items-center space-x-4">
           <div className="flex gap-5 font-light">
             <CiSearch size={24} className=" cursor-pointer" />
-            <CiUser size={24} className=" cursor-pointer" />
+            <CiUser
+              size={24}
+              className=" cursor-pointer"
+              onClick={() => setIsLoginOpen(true)}
+            />
             <PiShoppingCartThin size={24} className=" cursor-pointer" />
           </div>
 
@@ -83,6 +89,7 @@ export default function Navbar() {
       <div className="flex justify-center">
         <hr className=" w-[90%] border-gray-400" />
       </div>
+      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </header>
   );
 }

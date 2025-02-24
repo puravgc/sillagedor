@@ -12,12 +12,10 @@ const LoginPage = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Add login logic here
     if (!email || !password) {
       setError("Please fill in both fields");
     } else {
       setError("");
-      // Your login logic here (e.g., API call)
       console.log("Logged in with:", { email, password });
     }
   };
