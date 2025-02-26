@@ -9,10 +9,11 @@ import {
   DialogOverlay,
   DialogContent,
   DialogTitle,
-} from "@/components/ui/dialog"; // ShadCN Dialog components
+} from "@/components/ui/dialog";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import LocationPicker from "../locationpicker/Location";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 interface LoginModalProps {
   open: boolean;
@@ -20,11 +21,13 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ open, onClose }: LoginModalProps) {
+  const { data: session } = useSession();
+
+  console.log(session);
   const [isSignUp, setIsSignUp] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<
     [number, number] | null
   >(null);
-  console.log(selectedLocation);
   const handleSignUpClick = () => {
     setIsSignUp(true);
   };
@@ -33,18 +36,22 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
     setIsSignUp(false);
   };
 
+  const handleGoogleLogin = () => {
+    signIn("google");
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogOverlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
       <DialogContent className="fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-lg">
-        <div className="flex justify-between items-center mb-4">
-          <DialogTitle className="text-xl font-semibold">
+        <div className="flex justify-between items-center">
+          <DialogTitle className="text-xl font-semibold text-center w-full">
             {isSignUp ? "Sign Up" : "Login"}
           </DialogTitle>
         </div>
 
         {/* Google login button */}
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex justify-center" onClick={handleGoogleLogin}>
           <Button
             variant="outline"
             className="w-full flex items-center justify-center gap-2"
