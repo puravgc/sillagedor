@@ -14,6 +14,7 @@ import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import LocationPicker from "../locationpicker/Location";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Cookies from "js-cookie";
 
 interface LoginModalProps {
   open: boolean;
@@ -23,11 +24,15 @@ interface LoginModalProps {
 export default function LoginModal({ open, onClose }: LoginModalProps) {
   const { data: session } = useSession();
 
-  console.log(session);
   const [isSignUp, setIsSignUp] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<
     [number, number] | null
   >(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [loading, setloading] = useState(false);
   const handleSignUpClick = () => {
     setIsSignUp(true);
   };
@@ -40,6 +45,54 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
     signIn("google");
   };
 
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setloading(true);
+    if (isSignUp) {
+      try {
+        const res = await fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            location: selectedLocation,
+          }),
+        });
+        if (!res.ok) throw new Error("Failed to signup");
+        const data = await res.json();
+        setIsSignUp(false);
+        setloading(false);
+      } catch (error) {
+        console.error(error);
+        setloading(false);
+      }
+    } else {
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        if (!res.ok) throw new Error("Failed to login");
+        const data = await res.json();
+        setloading(false);
+      } catch (error) {
+        console.error(error);
+        setloading(false);
+      }
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogOverlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
@@ -50,7 +103,6 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           </DialogTitle>
         </div>
 
-        {/* Google login button */}
         <div className="mt-6 flex justify-center" onClick={handleGoogleLogin}>
           <Button
             variant="outline"
@@ -61,7 +113,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           </Button>
         </div>
 
-        <div className="space-y-4 mt-6">
+        <form className="space-y-4 mt-6" onSubmit={handleLoginSubmit}>
           {isSignUp && (
             <div className="flex gap-4">
               <div className="w-1/2">
@@ -71,6 +123,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
                   type="text"
                   placeholder="Enter your first name"
                   required
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
                 />
               </div>
               <div className="w-1/2">
@@ -80,6 +135,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
                   type="text"
                   placeholder="Enter your last name"
                   required
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -92,6 +150,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               type="email"
               placeholder="Enter your email"
               required
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
           </div>
 
@@ -108,6 +169,9 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               type="password"
               placeholder="Enter your password"
               required
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
           </div>
 
@@ -132,7 +196,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               </p>
             )}
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

@@ -71,6 +71,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
           marker
             .bindPopup(`Picked Location: ${lat.toFixed(4)}, ${lng.toFixed(4)}`)
             .openPopup();
+          console.log(userLocation);
         });
 
         return () => {
