@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     await connectToDatabase();
-    const { id } = params;
+    const { id } = await params;
     console.log(id);
     const perfume = await PerfumeModel.findById(id);
     if (!perfume) {
