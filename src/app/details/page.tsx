@@ -24,13 +24,15 @@ export default function UserDetails() {
     location: [0, 0],
   });
   const [loading, setLoading] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState<
+    [number, number] | null
+  >(null);
 
   const fetchExtendedDetails = async (email: string) => {
     try {
       const res = await fetch(`/api/details?email=${email}`);
       const data = await res.json();
 
-      // If user is found in DB, use those details
       if (data && data.firstName) {
         setUser({
           firstName: data.firstName || "",
@@ -41,8 +43,8 @@ export default function UserDetails() {
               ? data.location
               : [0, 0],
         });
+        console.log(data);
       } else {
-        // Else, fallback to session name/email
         const nameParts = session?.user?.name?.split(" ") || [];
         setUser({
           firstName: nameParts[0] || "",
@@ -60,7 +62,6 @@ export default function UserDetails() {
 
   useEffect(() => {
     if (status === "loading") return;
-
     const email = session?.user?.email;
     if (email) {
       fetchExtendedDetails(email);
@@ -69,6 +70,15 @@ export default function UserDetails() {
     }
   }, [session, status]);
 
+  useEffect(() => {
+    if (selectedLocation) {
+      setUser((prev) => ({
+        ...prev,
+        location: selectedLocation,
+      }));
+    }
+  }, [selectedLocation]);
+
   if (loading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
@@ -76,6 +86,30 @@ export default function UserDetails() {
       </div>
     );
   }
+
+  const updateUser = async () => {
+    try {
+      const response = await fetch("/api/updateuser", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          location: user.location,
+        }),
+      });
+      console.log(response.json());
+
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 px-4">
@@ -138,7 +172,6 @@ export default function UserDetails() {
               id="email"
               type="email"
               value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               readOnly
             />
@@ -148,51 +181,35 @@ export default function UserDetails() {
             <label className="block text-sm font-medium text-gray-600 mb-2">
               Location
             </label>
-            <div className="">
-              <div className="flex mb-2">
-                <input
-                  type="number"
-                  placeholder="Longitude"
-                  value={user.location[0]}
-                  onChange={(e) =>
-                    setUser({
-                      ...user,
-                      location: [parseFloat(e.target.value), user.location[1]],
-                    })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-                <input
-                  type="number"
-                  placeholder="Latitude"
-                  value={user.location[1]}
-                  onChange={(e) =>
-                    setUser({
-                      ...user,
-                      location: [user.location[0], parseFloat(e.target.value)],
-                    })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-              </div>
-              <LocationPicker />
+            <div className="flex gap-2 mb-2">
+              <input
+                disabled
+                type="text"
+                placeholder="Latitude"
+                value={user.location[0]?.toFixed(5) || ""}
+                className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+              <input
+                disabled
+                type="text"
+                placeholder="Longitude"
+                value={user.location[1]?.toFixed(5) || ""}
+                className="w-full px-4 py-2 border rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
             </div>
+            <LocationPicker setSelectedLocation={setSelectedLocation} />
           </div>
         </div>
 
         {/* Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-          <Button
-            variant="outline"
-            className="text-blue-600 border-blue-600 hover:bg-blue-100 w-full sm:w-auto"
-          >
+        <div className="flex mt-5">
+          <Button className="px-4 py-2 bg-black text-white text-sm rounded hover:bg-gray-700">
             Change Password
           </Button>
-          <Button
-            variant="outline"
-            className="text-green-600 border-green-600 hover:bg-green-100 w-full sm:w-auto"
-          >
-            Update Location
+        </div>
+        <div className="w-full flex justify-start mt-6">
+          <Button className="w-1/2" onClick={updateUser}>
+            Update
           </Button>
         </div>
       </motion.div>

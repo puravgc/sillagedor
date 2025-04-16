@@ -31,6 +31,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setloading] = useState(false);
+
   const handleSignUpClick = () => {
     setIsSignUp(true);
   };
