@@ -21,8 +21,6 @@ const textItem = {
 };
 
 const Hero = () => {
- 
-
   return (
     <div className="h-full w-full px-5">
       <div className="flex flex-col md:flex-row justify-between h-full mt-20">

@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <header className="">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between px-5">
         <div className="flex justify-center items-center">
           <Image src={"/logo.png"} height={65} width={65} alt="logo" />
           <Link href="/" className="text-xl">

@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import { BeatLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +15,7 @@ import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import LocationPicker from "../locationpicker/Location";
 import { useSession, signIn, signOut } from "next-auth/react";
-import Cookies from "js-cookie";
+
 
 interface LoginModalProps {
   open: boolean;
@@ -176,7 +177,13 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
           </div>
 
           <Button type="submit" className="w-full">
-            {isSignUp ? "Sign Up" : "Login"}
+            {loading ? (
+              <BeatLoader size={8} color="#fff" />
+            ) : isSignUp ? (
+              "Sign Up"
+            ) : (
+              "Login"
+            )}  
           </Button>
 
           <div className="flex justify-between mt-4 text-sm">
