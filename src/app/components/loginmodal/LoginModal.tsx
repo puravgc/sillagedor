@@ -1,6 +1,4 @@
 "use client";
-
-import { X } from "lucide-react";
 import { BeatLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +13,6 @@ import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import LocationPicker from "../locationpicker/Location";
 import { useSession, signIn, signOut } from "next-auth/react";
-
 
 interface LoginModalProps {
   open: boolean;
@@ -183,7 +180,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
               "Sign Up"
             ) : (
               "Login"
-            )}  
+            )}
           </Button>
 
           <div className="flex justify-between mt-4 text-sm">
