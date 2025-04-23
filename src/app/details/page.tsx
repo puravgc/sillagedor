@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { CiUser } from "react-icons/ci";
 import LocationPicker from "@/app/components/locationpicker/Location";
+import toast, { Toaster } from "react-hot-toast";
 
 type UserData = {
   firstName: string;
@@ -43,7 +44,6 @@ export default function UserDetails() {
               ? data.location
               : [0, 0],
         });
-        console.log(data);
       } else {
         const nameParts = session?.user?.name?.split(" ") || [];
         setUser({
@@ -101,8 +101,8 @@ export default function UserDetails() {
           location: user.location,
         }),
       });
-      console.log(response.json());
-
+      fetchExtendedDetails(user.email);
+      toast.success("Successfully Updated");
       if (!response.ok) {
         throw new Error("Failed to update user");
       }
@@ -113,6 +113,7 @@ export default function UserDetails() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 px-4">
+      <Toaster />
       <motion.div
         initial="hidden"
         animate="visible"

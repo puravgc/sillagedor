@@ -19,12 +19,14 @@ import Image from "next/image";
 import LoginModal from "@/app/components/loginmodal/LoginModal";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Search from "../search/Search";
 import SignOutModal from "../signoutmodal/SignOutModal";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="">
@@ -39,7 +41,16 @@ export default function Navbar() {
         {/* Icons */}
         <div className="flex items-center space-x-4">
           <div className="flex gap-10">
-            <CiSearch size={24} className=" cursor-pointer" />
+            <CiSearch
+              size={24}
+              className="cursor-pointer"
+              onClick={() => setIsSearchOpen(true)}
+            />
+            <Search
+              isOpen={isSearchOpen}
+              onClose={() => setIsSearchOpen(false)}
+            />
+
             <CiUser
               size={24}
               className=" cursor-pointer"
