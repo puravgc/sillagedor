@@ -4,7 +4,7 @@ import PerfumeModel from "@/model/PerfumeModel";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const query = searchParams.get("q");
+  const query = searchParams.get("q"); // Ensure we use 'q' here
 
   if (!query) {
     return NextResponse.json({ error: "Missing query" }, { status: 400 });
