@@ -3,119 +3,97 @@ import React from "react";
 import Marquee from "react-fast-marquee";
 import Quantity from "@/components/ui/quantity";
 
+const products = [
+  {
+    name: "Lattafa Khamrah Qahwa Eau De Parfum",
+    originalPrice: 65,
+    discountedPrice: 35,
+    image: "/trending2.png",
+  },
+  {
+    name: "Dior Sauvage by Christian Dior Men's Elixir",
+    originalPrice: 200,
+    discountedPrice: 160,
+    image: "/trending.png",
+  },
+];
+
 const Trending = () => {
   return (
-    <div className="mt-16 h-screen flex flex-col justify-around">
-      {/* Marquee Section */}
-      <div className="">
+    <section className="py-16  text-gray-600">
+      {/* Marquee Heading */}
+      <div className="mb-10">
         <Marquee
-          className="text-8xl font-bold strokeme overflow-hidden"
-          speed={150}
+          speed={100}
+          gradient={false}
+          className="text-5xl md:text-7xl font-extrabold uppercase text-gray-600"
         >
           {Array(5)
             .fill("TRENDING")
-            .map((text, index) => (
-              <p key={index} className="mr-10">
+            .map((text, i) => (
+              <span key={i} className="mx-6">
                 {text}
-              </p>
+              </span>
             ))}
         </Marquee>
       </div>
 
-      <div className="flex">
-        {/* Content Section */}
-        <div className="h-full flex justify-center gap-16 px-5">
-          {/* Image Section */}
-          <div className="w-fit h-fit flex justify-center items-start overflow-hidden rounded-xl">
-            <Image
-              layout="intrinsic"
-              src={"/trending2.png"}
-              height={900}
-              width={500}
-              alt="perfume"
-              className="rounded-xl shadow-2xl hover:scale-105 transition-transform duration-500 h-full w-auto"
-            />
-          </div>
+      {/* Products */}
+      <div className="flex flex-col gap-16 px-6 md:px-20">
+        {products.map((product, index) => (
+          <div
+            key={index}
+            className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 bg-gray-300 border rounded-3xl shadow-xl overflow-hidden p-6 md:p-10"
+          >
+            {/* Text Section */}
+            <div className="flex-1 text-gray-700">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {product.name}
+              </h2>
 
-          {/* Text + Pricing + Quantity */}
-          <div className="max-w-sm text-gray-600">
-            {/* Product Name */}
-            <h1 className="text-5xl font-bold">
-              Lattafa Khamrah Qahwa Eau De Parfum
-            </h1>
+              {/* Pricing */}
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-xl md:text-2xl line-through">
+                  ${product.originalPrice}
+                </span>
+                <span className="text-2xl md:text-3xl font-semibold">
+                  ${product.discountedPrice}
+                </span>
+                <span className="text-xs uppercase bg-gray-600 text-white px-2 py-1 rounded-full">
+                  Sale
+                </span>
+              </div>
 
-            {/* Price Section */}
-            <div className="flex gap-5 mt-10">
-              <p className="text-2xl line-through">$65</p>
-              <p className="text-2xl font-semibold">$35</p>
-            </div>
-            <div className="rounded-xl bg-gray-600 w-fit text-white px-3 text-sm">
-              {" "}
-              <p>Sale</p>
-            </div>
+              {/* Quantity */}
+              <div className="mt-5">
+                <Quantity />
+              </div>
 
-            {/* Quantity Selector */}
-            <div className="mt-5">
-              <Quantity />
-            </div>
-            <div className="mt-10 flex flex-col gap-5">
-              <button className="w-full px-12 py-3 text-gray-600 border border-gray-600 rounded-xl hover:border-2 transition-colors duration-300">
-                Add to cart
-              </button>
-              <button className="w-full px-12 py-3 text-white bg-gray-600 rounded-xl hover:bg-gray-700 transition-colors duration-300">
-                Buy it now
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className=" border border-gray-500"></div>
-        {/* Content Section */}
-        <div className="h-full flex justify-center gap-16 px-5">
-          {/* Image Section */}
-          <div className="w-fit h-fit flex justify-center items-start overflow-hidden rounded-xl">
-            <Image
-              layout="intrinsic"
-              src={"/trending.png"}
-              height={900}
-              width={500}
-              alt="perfume"
-              className="rounded-xl shadow-2xl hover:scale-105 transition-transform duration-500 h-full w-auto"
-            />
-          </div>
-
-          {/* Text + Pricing + Quantity */}
-          <div className="max-w-sm text-gray-600">
-            {/* Product Name */}
-            <h1 className="text-5xl font-bold">
-              Dior Sauvage by Christian Dior Men's Elixir
-            </h1>
-
-            {/* Price Section */}
-            <div className="flex gap-5 mt-10">
-              <p className="text-2xl line-through">$200</p>
-              <p className="text-2xl font-semibold">$160</p>
-            </div>
-            <div className="rounded-xl bg-gray-600 w-fit text-white px-3 text-sm">
-              {" "}
-              <p>Sale</p>
+              {/* Buttons */}
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <button className="w-full sm:w-auto px-6 py-3 text-gray-600 border border-gray-600 rounded-xl hover:border-2 transition">
+                  Add to Cart
+                </button>
+                <button className="w-full sm:w-auto px-6 py-3 text-white bg-gray-600 rounded-xl hover:bg-gray-700 transition">
+                  Buy it now
+                </button>
+              </div>
             </div>
 
-            {/* Quantity Selector */}
-            <div className="mt-5">
-              <Quantity />
-            </div>
-            <div className="mt-10 flex flex-col gap-5">
-              <button className="w-full px-12 py-3 text-gray-600 border border-gray-600 rounded-xl hover:border-2 transition-colors duration-300">
-                Add to cart
-              </button>
-              <button className="w-full px-12 py-3 text-white bg-gray-600 rounded-xl hover:bg-gray-700 transition-colors duration-300">
-                Buy it now
-              </button>
+            {/* Image Section */}
+            <div className="flex-1">
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={500}
+                height={700}
+                className="rounded-xl shadow-2xl hover:scale-105 transition-transform duration-500 mx-auto"
+              />
             </div>
           </div>
-        </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -8,7 +8,6 @@ import { IoMenuOutline } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import { CiSearch } from "react-icons/ci";
-import { PiSignOutThin } from "react-icons/pi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import LoginModal from "@/app/components/loginmodal/LoginModal";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Search from "../search/Search";
 import SignOutModal from "../signoutmodal/SignOutModal";
@@ -62,7 +61,11 @@ export default function Navbar() {
                 }
               }}
             />
-            <PiShoppingCartThin size={24} className=" cursor-pointer" />
+            <PiShoppingCartThin
+              size={24}
+              className=" cursor-pointer"
+              onClick={() => router.push("/cart")}
+            />
             {(session || Cookies.get("session")) && <SignOutModal />}
           </div>
 

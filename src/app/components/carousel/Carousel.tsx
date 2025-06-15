@@ -13,40 +13,10 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 
-export function CarouselSize() {
+export function CarouselSize({ allPerfumes }) {
   const router = useRouter();
   const [bestsellers, setBestsellers] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const fetchBestSeller = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("/api/get-products", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch best seller perfumes");
-      }
-      const perfumes = await response.json();
-
-      const bestsellers = perfumes.filter(
-        (perfume) => perfume.bestSeller === true
-      );
-      setBestsellers(bestsellers);
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch best seller perfumes", error);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchBestSeller();
-  }, []);
 
   const textContainer = {
     hidden: { opacity: 0, y: 50 },
@@ -77,7 +47,7 @@ export function CarouselSize() {
           className="w-full max-w-xl mx-auto"
         >
           <CarouselContent>
-            {bestsellers.map((perfume, index) => (
+            {allPerfumes.map((perfume, index) => (
               <CarouselItem key={index} className="md:basis-1/1 lg:basis-1/2">
                 <motion.div
                   variants={textContainer}

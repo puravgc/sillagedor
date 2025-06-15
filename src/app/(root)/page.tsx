@@ -7,7 +7,6 @@ import Collection from "../screens/collections/Collection";
 const Page = () => {
   return (
     <div className="">
-      
       <Hero />
       <Trending />
       <Collection />

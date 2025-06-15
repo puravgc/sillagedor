@@ -1,8 +1,6 @@
-"use client";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { MoonLoader } from "react-spinners";
-
+import CartInteraction from "@/app/components/cartinteraction/CartInteraction";
+import connectToDatabase from "@/lib/db";
+import PerfumeModel from "@/model/PerfumeModel";
 interface Perfume {
   _id: string;
   name: string;
@@ -19,37 +17,11 @@ interface Perfume {
   discountPercentage: number;
 }
 
-const ProductPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const [perfume, setPerfume] = useState<Perfume | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchPerfume = async () => {
-      try {
-        const res = await fetch(`/api/get-products/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch product");
-
-        const data = await res.json();
-        setPerfume(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPerfume();
-  }, [id]);
-
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-screen text-xl font-semibold">
-        <MoonLoader color="#000" size={50} />
-      </div>
-    );
+const ProductPage = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+  await connectToDatabase();
+  const perfume = await PerfumeModel.findOne({ _id: id });
+  const plainProduct = JSON.parse(JSON.stringify(perfume));
 
   if (!perfume)
     return (
@@ -145,12 +117,7 @@ const ProductPage = () => {
 
           {/* Buttons */}
           <div className="flex flex-col space-y-4">
-            <button className="w-full py-3 px-6 text-lg font-semibold text-white bg-black rounded-lg hover:bg-gray-800 transition-colors duration-300">
-              Buy Now
-            </button>
-            <button className="w-full py-3 px-6 text-lg font-semibold text-black border-2 border-gray-600 rounded-lg hover:bg-gray-100 transition-colors duration-300">
-              Add to Cart
-            </button>
+            <CartInteraction product={plainProduct} />
           </div>
         </div>
       </div>
