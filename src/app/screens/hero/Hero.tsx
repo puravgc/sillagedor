@@ -1,16 +1,17 @@
 import { CarouselSize } from "@/app/components/carousel/Carousel";
-import connectToDatabase from "@/lib/db";
-import PerfumeModel from "@/model/PerfumeModel";
+import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+import HeroAnim from "./HeroAnim";
 
 const Hero = async () => {
-  await connectToDatabase();
-  const allPerfumes = await PerfumeModel.find().lean();
+  const allPerfumes = await prisma.perfumeModel.findMany();
+
   const serializedPerfumes = allPerfumes.map((perfume) => ({
     ...perfume,
-    _id: perfume._id.toString(),
-    createdAt: perfume.createdAt?.toString(),
-    updatedAt: perfume.updatedAt?.toString(),
+    id: perfume.id.toString(),
+    createdAt: perfume.createdAt?.toISOString(),
+    updatedAt: perfume.updatedAt?.toISOString(),
+    releaseDate: perfume.releaseDate?.toISOString(),
   }));
   return (
     <div className="h-full w-full px-5">
@@ -18,9 +19,9 @@ const Hero = async () => {
         {/* Text Section */}
         <div className="text-4xl md:text-7xl flex flex-col text-center md:text-left p-10">
           <div className="w-full text-gray-600 custom-font">
-            <span className="inline-block">Indulge in luxury,</span>
-            <br />
-            <span className="inline-block">one fragrance at a time.</span>
+            <div>
+              <HeroAnim />
+            </div>
             <div className="text-xl mt-5">
               <a href="/shop">
                 <button className="p-6 bg-transparent border border-gray-400 text-gray-700 hover:bg-gray-600 hover:text-white">

@@ -1,26 +1,11 @@
 import CartInteraction from "@/app/components/cartinteraction/CartInteraction";
-import connectToDatabase from "@/lib/db";
-import PerfumeModel from "@/model/PerfumeModel";
-interface Perfume {
-  _id: string;
-  name: string;
-  description: string;
-  originalPrice: number;
-  discountedPrice: number;
-  tags: string[];
-  rating: number;
-  brand: string;
-  image: string;
-  bestSeller: boolean;
-  stock: number;
-  releaseDate: string;
-  discountPercentage: number;
-}
+import { prisma } from "@/lib/prisma";
 
 const ProductPage = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
-  await connectToDatabase();
-  const perfume = await PerfumeModel.findOne({ _id: id });
+  const perfume = await prisma.perfumeModel.findUnique({
+    where: { id: parseInt(id) },
+  });
   const plainProduct = JSON.parse(JSON.stringify(perfume));
 
   if (!perfume)

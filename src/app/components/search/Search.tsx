@@ -103,9 +103,9 @@ const Search: React.FC<Props> = ({ isOpen, onClose }) => {
                 <ul>
                   {results.map((product: any) => (
                     <li
-                      key={product._id}
+                      key={product.id}
                       onClick={() => {
-                        router.push(`/shop/${product._id}`);
+                        router.push(`/shop/${product.id}`);
                         onClose();
                       }}
                       className="cursor-pointer flex items-center py-3 px-4 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-200 transition"

@@ -33,6 +33,7 @@ export default function UserDetails() {
     try {
       const res = await fetch(`/api/details?email=${email}`);
       const data = await res.json();
+      console.log(data);
 
       if (data && data.firstName) {
         setUser({
@@ -112,7 +113,7 @@ export default function UserDetails() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-250 px-4">
       <Toaster />
       <motion.div
         initial="hidden"

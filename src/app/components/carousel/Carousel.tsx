@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { BounceLoader } from "react-spinners";
 import Image from "next/image";
@@ -48,34 +48,32 @@ export function CarouselSize({ allPerfumes }) {
         >
           <CarouselContent>
             {allPerfumes.map((perfume, index) => (
-              <CarouselItem key={index} className="md:basis-1/1 lg:basis-1/2">
+              <CarouselItem key={index} className="w-64 flex-shrink-0">
                 <motion.div
                   variants={textContainer}
                   initial="hidden"
                   animate="visible"
-                  className="relative overflow-hidden cursor-pointer"
+                  className="overflow-hidden cursor-pointer"
                   onClick={() => {
-                    router.push(`/shop/${perfume._id}`);
+                    router.push(`/shop/${perfume.id}`);
                   }}
                 >
-                  <div className="absolute top-0 left-0 bg-gray-500 p-1 rounded-lg">
-                    <p className="text-sm text-white">Best Seller</p>
-                  </div>
-
                   <Card className="border-none">
                     <CardContent className="flex flex-col items-center p-4">
                       <div className="w-full h-64">
                         <Image
                           src={perfume.image}
                           alt={perfume.name}
-                          width={200}
-                          height={200}
+                          width={256}
+                          height={256}
                           className="object-contain w-full h-full rounded-xl"
                         />
                       </div>
 
-                      <h2 className="text-xl mt-2">{perfume.name}</h2>
-                      <div className="flex gap-5">
+                      <h2 className="text-xl mt-2 text-center">
+                        {perfume.name}
+                      </h2>
+                      <div className="flex gap-5 justify-center">
                         <p className="text-gray-600 text-lg line-through">
                           ${perfume.originalPrice}
                         </p>
@@ -89,6 +87,7 @@ export function CarouselSize({ allPerfumes }) {
               </CarouselItem>
             ))}
           </CarouselContent>
+
           <CarouselPrevious className="hidden md:flex" />
           <CarouselNext className="hidden md:flex" />
         </Carousel>

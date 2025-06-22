@@ -1,40 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-import PerfumeModel from "@/model/PerfumeModel";
-import connectToDatabase from "@/lib/db";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+
+  const min = searchParams.get("filter.v.price.gte");
+  const max = searchParams.get("filter.v.price.lte");
+  const sort = searchParams.get("sort_by");
+
+  const filters: any = {};
+
+  if (min) {
+    filters.originalPrice = { ...filters.originalPrice, gte: parseFloat(min) };
+  }
+
+  if (max) {
+    filters.originalPrice = { ...filters.originalPrice, lte: parseFloat(max) };
+  }
+
+  let orderBy = {};
+
+  if (sort === "price_asc") {
+    orderBy = { originalPrice: "asc" };
+  } else if (sort === "price_desc") {
+    orderBy = { originalPrice: "desc" };
+  } else if (sort === "newest") {
+    orderBy = { releaseDate: "desc" };
+  } else if (sort === "oldest") {
+    orderBy = { releaseDate: "asc" };
+  } else {
+    orderBy = { createdAt: "desc" };
+  }
+
   try {
-    await connectToDatabase();
-
-    const { searchParams } = new URL(req.url);
-
-    const min = searchParams.get("filter.v.price.gte");
-    const max = searchParams.get("filter.v.price.lte");
-    const sortBy = searchParams.get("sort_by");
-
-    const filter: any = {};
-    if (min || max) {
-      filter.discountedPrice = {};
-      if (min) filter.discountedPrice.$gte = Number(min);
-      if (max) filter.discountedPrice.$lte = Number(max);
-    }
-
-    const sort: any = {};
-    if (sortBy === "price-descending") sort.discountedPrice = -1;
-    else if (sortBy === "price-ascending") sort.discountedPrice = 1;
-
-    const perfumes = await PerfumeModel.find(filter).sort(sort);
+    const perfumes = await prisma.perfumeModel.findMany({
+      where: filters,
+      orderBy,
+    });
 
     if (!perfumes || perfumes.length === 0) {
-      return NextResponse.json(
-        { message: "No perfumes found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
 
     return NextResponse.json(perfumes);
-  } catch (error: any) {
-    console.error("Error in GET /api/get-products:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (err) {
+    console.error("API Error:", err);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

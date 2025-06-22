@@ -12,11 +12,8 @@ export async function GET(
     console.log(id);
     const perfume = await PerfumeModel.findById(id);
     if (!perfume) {
-      return NextResponse.json(
-        { message: "Perfume not found" },
-        { status: 404 }
-      );
-    }
+      return NextResponse.json({ message: "Perfume not found" });
+    } 
 
     return NextResponse.json(perfume);
   } catch (error: any) {
