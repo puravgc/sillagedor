@@ -5,7 +5,6 @@ import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import SessionProviderWrapper from "@/app/components/session/SessionProviderWrapper";
 
-// Import Montserrat font
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],

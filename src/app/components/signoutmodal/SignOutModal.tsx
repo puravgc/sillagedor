@@ -11,12 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { PiSignOutThin } from "react-icons/pi";
 
 export default function SignOutModal() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   const handleSignOut = () => {
     Cookies.remove("session");

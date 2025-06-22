@@ -3,9 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { signIn } from "next-auth/react";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { IoMenuOutline } from "react-icons/io5";
-import { CiUser } from "react-icons/ci";
+import { CiLogin, CiUser } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import { CiSearch } from "react-icons/ci";
 import {
@@ -15,7 +16,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import LoginModal from "@/app/components/loginmodal/LoginModal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Search from "../search/Search";
@@ -49,23 +49,26 @@ export default function Navbar() {
               isOpen={isSearchOpen}
               onClose={() => setIsSearchOpen(false)}
             />
-
-            <CiUser
-              size={24}
-              className=" cursor-pointer"
-              onClick={() => {
-                if (session || Cookies.get("session")) {
-                  router.push("/details");
-                } else {
-                  setIsLoginOpen(true);
-                }
-              }}
-            />
             <PiShoppingCartThin
               size={24}
               className=" cursor-pointer"
               onClick={() => router.push("/cart")}
             />
+
+            {session ? (
+              <CiUser
+                size={24}
+                className=" cursor-pointer"
+                onClick={() => router.push("/details")}
+              />
+            ) : (
+              <CiLogin
+                size={24}
+                className="cursor-pointer"
+                onClick={() => signIn("google")}
+              />
+            )}
+
             {(session || Cookies.get("session")) && <SignOutModal />}
           </div>
 
@@ -93,7 +96,6 @@ export default function Navbar() {
       <div className="flex justify-center">
         <hr className=" w-[90%] border-gray-400" />
       </div>
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </header>
   );
 }

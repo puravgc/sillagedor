@@ -33,7 +33,6 @@ export default function UserDetails() {
     try {
       const res = await fetch(`/api/details?email=${email}`);
       const data = await res.json();
-      console.log(data);
 
       if (data && data.firstName) {
         setUser({

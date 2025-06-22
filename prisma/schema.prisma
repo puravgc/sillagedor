@@ -38,7 +38,7 @@ model User {
   password  String
   firstName String
   lastName  String
-  location  Float[]   // PostgreSQL supports float arrays
+  location  Float[] 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
