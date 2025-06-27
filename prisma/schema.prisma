@@ -33,13 +33,14 @@ model PerfumeModel {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  password  String
-  firstName String
-  lastName  String
-  location  Float[] 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  firstName String?  
+  lastName  String?  
+  location  Float[]  
+  password  String?  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 

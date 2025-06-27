@@ -12,22 +12,24 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      if (!user.email) return false;
-
       try {
         const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
+          where: { email: user.email! },
         });
 
         if (!existingUser) {
+          const [firstName = "", lastName = ""] = (user.name ?? "").split(" ");
+
           await prisma.user.create({
             data: {
-              name: user.name ?? "",
-              email: user.email,
-              image: user.image ?? "",
+              email: user.email!,
+              firstName,
+              lastName,
+              location: [0.0, 0.0],
             },
           });
         }
+
         return true;
       } catch (error) {
         console.error("Error storing user in DB:", error);
