@@ -43,7 +43,7 @@ const Hero = async () => {
         </div>
 
         {/* Image Section */}
-        <div className="flex flex-wrap md:flex-nowrap w-full md:w-[50%] gap-2">
+        <div className="hidden lg:flex lg:flex-wrap lg:flex-nowrap w-full md:w-[50%] gap-2">
           <div className="h-auto md:h-[90%] flex flex-col gap-5 justify-end items-end p-5">
             <Image
               src="/sidemodel.png"
