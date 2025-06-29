@@ -10,14 +10,23 @@ export default async function PerfumeCollection({ searchParams }: Props) {
   const min = searchParams?.["filter.v.price.gte"];
   const max = searchParams?.["filter.v.price.lte"];
   const sort = searchParams?.["sort_by"];
+  const category = searchParams?.["category"];
 
   const where: any = {};
-  if (min) where.discountedPrice = { gte: parseFloat(min) };
+
+  if (min) {
+    where.discountedPrice = { gte: parseFloat(min) };
+  }
+
   if (max) {
     where.discountedPrice = {
       ...where.discountedPrice,
       lte: parseFloat(max),
     };
+  }
+
+  if (category) {
+    where.category = category;
   }
 
   let orderBy: any = { createdAt: "desc" };

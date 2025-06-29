@@ -1,12 +1,28 @@
-import Image from "next/image";
+import CollectionCard from "@/app/components/collectioncard/CollectionCard";
 import React from "react";
 
 const Collection = () => {
   const collection = [
-    { category: "Men", image: "/mencollection.png" },
-    { category: "Women", image: "/womencollection.png" },
-    { category: "Unisex", image: "/unisexcollection.png" },
-    { category: "Luxury", image: "/luxurycollection.png" },
+    {
+      category: "Men",
+      image: "/mencollection.png",
+      link: "/shop?category=men",
+    },
+    {
+      category: "Women",
+      image: "/womencollection.png",
+      link: "/shop?category=women",
+    },
+    {
+      category: "Unisex",
+      image: "/unisexcollection.png",
+      link: "/shop?category=unisex",
+    },
+    {
+      category: "Luxury",
+      image: "/luxurycollection.png",
+      link: "/shop?category=luxury",
+    },
   ];
 
   return (
@@ -21,28 +37,7 @@ const Collection = () => {
       {/* Collection Grid */}
       <div className="flex flex-wrap justify-center gap-10">
         {collection.map((item, index) => (
-          <div
-            key={index}
-            className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden"
-          >
-            <div className="overflow-hidden">
-              {" "}
-              <Image
-                height={500}
-                width={400}
-                src={item.image}
-                alt={item.category}
-                className="object-cover w-full h-[400px] transition-transform hover:scale-105 duration-500"
-              />
-            </div>
-
-            <div className="flex justify-center items-center bg-gray-600 text-white text-xl py-4 uppercase tracking-wide">
-              {item.category}
-              <span className="ml-2 transform transition-transform duration-300 group-hover:translate-x-2">
-                →
-              </span>
-            </div>
-          </div>
+          <CollectionCard collection={item} key={index} />
         ))}
       </div>
     </div>
