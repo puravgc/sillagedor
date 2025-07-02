@@ -1,93 +1,84 @@
 import Image from "next/image";
 import React from "react";
 import Marquee from "react-fast-marquee";
-import Quantity from "@/components/ui/quantity";
+import { prisma } from "@/lib/prisma";
+import ShopNowButton from "./ShopNowButton";
 
-const products = [
-  {
-    name: "Lattafa Khamrah Qahwa Eau De Parfum",
-    originalPrice: 65,
-    discountedPrice: 35,
-    image: "/trending2.png",
-  },
-  {
-    name: "Dior Sauvage by Christian Dior Men's Elixir",
-    originalPrice: 200,
-    discountedPrice: 160,
-    image: "/trending.png",
-  },
-];
+const Trending = async () => {
+  const products = await prisma.perfumeModel.findMany({
+    where: { bestSeller: true, stock: { gt: 0 } },
+    orderBy: { releaseDate: "desc" },
+    take: 3,
+  });
 
-const Trending = () => {
   return (
-    <section className="py-16  text-gray-600">
+    <section className="py-20 text-gray-700">
       {/* Marquee Heading */}
-      <div className="mb-10">
+      <div className="mb-16">
         <Marquee
-          speed={100}
+          speed={80}
           gradient={false}
-          className="text-5xl md:text-7xl font-extrabold uppercase text-gray-600"
+          className="text-6xl md:text-7xl font-extrabold uppercase text-gray-700 strokeme"
         >
-          {Array(5)
+          {Array(4)
             .fill("TRENDING")
             .map((text, i) => (
-              <span key={i} className="mx-6">
+              <span key={i} className="mx-10">
                 {text}
               </span>
             ))}
         </Marquee>
       </div>
 
-      {/* Products */}
-      <div className="flex flex-col gap-16 px-6 md:px-20">
-        {products.map((product, index) => (
+      {/* Products Grid */}
+      <div className="flex flex-col gap-20 px-6 md:px-20">
+        {products.map((product) => (
           <div
-            key={index}
-            className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 bg-gray-300 border rounded-3xl shadow-xl overflow-hidden p-6 md:p-10"
+            key={product.id}
+            className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 bg-white border border-gray-300 rounded-3xl shadow-2xl p-6 md:p-12"
           >
             {/* Text Section */}
-            <div className="flex-1 text-gray-700">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {product.name}
-              </h2>
-
-              {/* Pricing */}
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-xl md:text-2xl line-through">
-                  ${product.originalPrice}
-                </span>
-                <span className="text-2xl md:text-3xl font-semibold">
-                  ${product.discountedPrice}
-                </span>
-                <span className="text-xs uppercase bg-gray-600 text-white px-2 py-1 rounded-full">
+            <div className="flex-1 space-y-6">
+              {/* Tags */}
+              <div className="flex gap-3">
+                <span className="text-xs font-medium uppercase bg-black text-white px-3 py-1 rounded-full">
                   Sale
                 </span>
+                <span className="text-xs font-medium uppercase bg-red-600 text-white px-3 py-1 rounded-full">
+                  Trending
+                </span>
               </div>
 
-              {/* Quantity */}
-              <div className="mt-5">
-                <Quantity />
+              {/* Title */}
+              <h2 className="text-3xl md:text-4xl font-bold">{product.name}</h2>
+
+              {/* Description */}
+              <p className="text-base leading-relaxed text-gray-600">
+                {product.description}
+              </p>
+
+              {/* Pricing */}
+              <div className="space-y-1">
+                <p className="text-xl line-through text-gray-500">
+                  ${product.originalPrice.toFixed(2)}
+                </p>
+                <p className="text-3xl font-bold text-gray-800">
+                  ${product.discountedPrice.toFixed(2)}
+                </p>
               </div>
 
-              {/* Buttons */}
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <button className="w-full sm:w-auto px-6 py-3 text-gray-600 border border-gray-600 rounded-xl hover:border-2 transition">
-                  Add to Cart
-                </button>
-                <button className="w-full sm:w-auto px-6 py-3 text-white bg-gray-600 rounded-xl hover:bg-gray-700 transition">
-                  Buy it now
-                </button>
-              </div>
+              {/* CTA */}
+              <ShopNowButton id={product.id} />
             </div>
 
             {/* Image Section */}
-            <div className="flex-1">
+            <div className="flex-1 max-w-[400px]">
               <Image
                 src={product.image}
                 alt={product.name}
                 width={500}
                 height={700}
-                className="rounded-xl shadow-2xl hover:scale-105 transition-transform duration-500 mx-auto"
+                className="rounded-xl shadow-lg mx-auto object-cover"
               />
             </div>
           </div>

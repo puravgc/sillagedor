@@ -18,6 +18,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "img.drz.lazcdn.com", // Replace with your actual image host
       },
+      {
+        protocol: "https",
+        hostname: "cdn.notinoimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "fimgs.net",
+      },
     ],
   },
 };

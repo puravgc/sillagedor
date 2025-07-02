@@ -39,8 +39,10 @@ model User {
   lastName  String?  
   location  Float[]  
   password  String?  
+  isAdmin   Boolean  @default(false) // 👈 Add this line
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 
 

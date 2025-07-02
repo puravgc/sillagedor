@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { signIn } from "next-auth/react";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { IoMenuOutline } from "react-icons/io5";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { CiLogin, CiUser } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import { CiSearch } from "react-icons/ci";
@@ -26,7 +27,6 @@ export default function Navbar() {
   const router = useRouter();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   return (
     <header className="">
       <div className="container mx-auto flex items-center justify-between px-5">
@@ -49,6 +49,14 @@ export default function Navbar() {
               isOpen={isSearchOpen}
               onClose={() => setIsSearchOpen(false)}
             />
+            {session?.user?.isAdmin && (
+              <MdAdminPanelSettings
+                size={24}
+                className=" cursor-pointer"
+                onClick={() => router.push("/admin/dashboard")}
+              />
+            )}
+
             <PiShoppingCartThin
               size={24}
               className=" cursor-pointer"

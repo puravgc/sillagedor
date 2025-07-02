@@ -31,7 +31,7 @@ const Quantity = () => {
           <button
             type="button"
             onClick={handleDecrement}
-            className="bg-transparent dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-300 rounded-l-lg p-3 h-11 hover:bg-gray-200 focus:ring-2 focus:outline-none"
+            className="bg-transparent dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-400 rounded-l-lg p-3 h-11 hover:bg-gray-200 focus:ring-2 focus:outline-none"
           >
             <svg
               className="w-3 h-3 text-gray-900 dark:text-white"
@@ -55,14 +55,14 @@ const Quantity = () => {
             id="quantity-input"
             value={quantity}
             onChange={handleChange}
-            className="bg-gray-300 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm w-full py-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="bg-gray-300 border border-x-0 border-gray-400 h-11 text-center text-gray-900 text-sm w-full py-2.5 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           />
 
           {/* Increment Button */}
           <button
             type="button"
             onClick={handleIncrement}
-            className="bg-transparent dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-300 rounded-r-lg p-3 h-11 hover:bg-gray-200 focus:ring-2 focus:outline-none"
+            className="bg-transparent dark:bg-gray-700 dark:hover:bg-gray-600 border border-gray-400 rounded-r-lg p-3 h-11 hover:bg-gray-200 focus:ring-2 focus:outline-none"
           >
             <svg
               className="w-3 h-3 text-gray-900 dark:text-white"

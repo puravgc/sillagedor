@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
               firstName,
               lastName,
               location: [0.0, 0.0],
+              isAdmin: false, // default non-admin users
             },
           });
         }
@@ -36,7 +37,26 @@ export const authOptions: NextAuthOptions = {
         return false;
       }
     },
+
+    // ✅ Add this
+    async jwt({ token }) {
+      const userInDb = await prisma.user.findUnique({
+        where: { email: token.email! },
+      });
+
+      token.isAdmin = userInDb?.isAdmin ?? false;
+      return token;
+    },
+
+    // ✅ Add this
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.isAdmin = token.isAdmin;
+      }
+      return session;
+    },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
   debug: true,
 };

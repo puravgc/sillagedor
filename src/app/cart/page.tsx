@@ -2,6 +2,7 @@
 import React from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const { cart, addToCart, removeFromCart, clearCart } = useCartStore();
@@ -31,11 +32,27 @@ const CartPage = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="p-6 text-center text-lg font-medium text-gray-600">
+      <div className="p-6 text-center text-lg font-medium text-gray-600 min-h-[80vh] flex justify-center items-center   ">
         🛒 Your cart is empty.
       </div>
     );
   }
+
+  const handleCheckout = async () => {
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+    );
+
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart }),
+    });
+
+    const data = await res.json();
+    stripe?.redirectToCheckout({ sessionId: data.id });
+    localStorage.removeItem("cart-storage");
+  };
 
   return (
     <div className="my-12 p-8 max-w-4xl mx-auto space-y-8 bg-white rounded-lg shadow-lg">
@@ -110,7 +127,10 @@ const CartPage = () => {
           >
             Clear Cart
           </button>
-          <button className="px-5 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition font-semibold">
+          <button
+            onClick={handleCheckout}
+            className="px-5 py-3 rounded-lg bg-black text-white hover:bg-gray-800 transition font-semibold"
+          >
             Checkout
           </button>
         </div>

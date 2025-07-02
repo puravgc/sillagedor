@@ -12,7 +12,7 @@ interface CollectionItem {
 const CollectionCard = ({ collection }: { collection: CollectionItem }) => {
   return (
     <Link href={collection.link}>
-      <div className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden">
+      <div className="group cursor-pointer rounded-2xl shadow-lg overflow-hidden border border-gray-300">
         <div className="overflow-hidden">
           <Image
             height={500}
@@ -23,7 +23,7 @@ const CollectionCard = ({ collection }: { collection: CollectionItem }) => {
           />
         </div>
 
-        <div className="flex justify-center items-center bg-gray-600 text-white text-xl py-4 uppercase tracking-wide">
+        <div className="flex justify-center items-center  text-gray-500 text-xl py-4 uppercase tracking-wide">
           {collection.category}
           <span className="ml-2 transform transition-transform duration-300 group-hover:translate-x-2">
             →
