@@ -20,10 +20,10 @@ const Card: React.FC<{ perfume: PerfumeCardProps }> = ({ perfume }) => {
   return (
     <div
       onClick={() => router.push(`/shop/${perfume.id}`)}
-      className="border rounded-lg shadow-md w-64 h-96 flex flex-col justify-between group cursor-pointer overflow-hidden"
+      className="border rounded-lg shadow-md w-80 h-[420px] flex flex-col justify-between group cursor-pointer overflow-hidden"
     >
       {/* Image Section */}
-      <div className="overflow-hidden h-1/2">
+      <div className="overflow-hidden h-3/5">
         <Image
           src={perfume.image}
           alt={perfume.name}
@@ -34,7 +34,7 @@ const Card: React.FC<{ perfume: PerfumeCardProps }> = ({ perfume }) => {
       </div>
 
       {/* Info Section */}
-      <div className="p-3 flex flex-col justify-between h-1/2">
+      <div className="p-3 flex flex-col justify-between h-2/5">
         <h2 className="text-lg font-semibold group-hover:underline">
           {perfume.name}
         </h2>

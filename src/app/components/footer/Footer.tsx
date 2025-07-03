@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import {
   FaFacebookF,
@@ -8,7 +9,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-gray-700 text-white py-8">
       <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center">
         {/* Logo Section */}
         <div className="mb-6 md:mb-0">
@@ -16,23 +17,8 @@ const Footer = () => {
           <p className="text-gray-400 mt-2">Indulge in luxury</p>
         </div>
 
-        {/* Quick Links */}
-        <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Quick Links</h3>
-          <ul className="text-gray-400 space-y-1">
-            <li className="hover:text-gray-200 transition">
-              <a href="#">Home</a>
-            </li>
-            <li className="hover:text-gray-200 transition">
-              <a href="#">Collection</a>
-            </li>
-            <li className="hover:text-gray-200 transition">
-              <a href="#">Shop</a>
-            </li>
-            <li className="hover:text-gray-200 transition">
-              <a href="#">Contact</a>
-            </li>
-          </ul>
+        <div>
+          <Image src={"/logo.png"} width={200} height={200} alt="logo" />
         </div>
 
         {/* Social Media */}
