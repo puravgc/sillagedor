@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type CartItem = {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   originalPrice: number;
@@ -27,11 +27,11 @@ export const useCartStore = create<CartState>()(
       cart: [],
 
       addToCart: (item: CartItem) => {
-        const existing = get().cart.find((p) => p._id === item._id);
+        const existing = get().cart.find((p) => p.id === item.id);
         if (existing) {
           set({
             cart: get().cart.map((p) =>
-              p._id === item._id
+              p.id === item.id
                 ? { ...p, quantity: p.quantity + item.quantity }
                 : p
             ),

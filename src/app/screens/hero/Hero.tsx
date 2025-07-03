@@ -4,7 +4,11 @@ import Image from "next/image";
 import HeroAnim from "./HeroAnim";
 
 const Hero = async () => {
-  const allPerfumes = await prisma.perfumeModel.findMany();
+  const allPerfumes = await prisma.perfumeModel.findMany({
+    where: {
+      bestSeller: true,
+    },
+  });
 
   const serializedPerfumes = allPerfumes.map((perfume) => ({
     ...perfume,

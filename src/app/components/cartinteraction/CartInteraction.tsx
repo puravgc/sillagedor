@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import toast, { Toaster } from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 type Product = {
   id: string;
@@ -11,26 +12,40 @@ type Product = {
 };
 
 const CartInteraction = ({ product }: { product: Product }) => {
-  const { addToCart } = useCartStore();
+  const { addToCart, cart } = useCartStore();
   const [quantity, setQuantity] = useState(1);
-
   const handleIncrease = () => setQuantity((prev) => prev + 1);
   const handleDecrease = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
   };
 
-  const addToCartHandler = async () => {
+  const addToCartHandler = () => {
+    if (!quantity || quantity < 1) {
+      toast.error("Please select a valid quantity");
+      return;
+    }
     try {
       addToCart({ ...product, quantity });
-      toast.success(`Added to cart`);
+      toast.success(`Added ${quantity} ${product.name}(s) to cart`);
     } catch (error) {
       toast.error("Failed to add to cart");
     }
   };
 
-  const buyNowHandler = () => {
-    toast.success(`Bought ${quantity} of ${product.name}`);
-    console.log(`Proceed to buy ${quantity}`);
+  const buyNowHandler = async () => {
+    const stripe = await loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+    );
+
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product: product }),
+    });
+
+    const data = await res.json();
+    stripe?.redirectToCheckout({ sessionId: data.id });
+    localStorage.removeItem("cart-storage");
   };
 
   return (

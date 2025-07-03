@@ -6,7 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const { cart, addToCart, removeFromCart, clearCart } = useCartStore();
-
+  console.log(cart);
   const increaseQuantity = (itemId: string) => {
     const item = cart.find((i) => i._id === itemId);
     if (item && item.quantity < item.stock) {
