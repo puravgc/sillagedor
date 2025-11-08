@@ -1,35 +1,27 @@
-import { NextResponse } from "next/server";
-import connectToDatabase from "@/lib/db";
-import User from "@/model/UserModel";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma"; // adjust path to your prisma client
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
     const { email, firstName, lastName, location } = body;
 
     if (!email) {
-      return NextResponse.json({ message: "Email is required" }, { status: 400 });
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    await connectToDatabase();
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        firstName,
+        lastName,
+        location,
+      },
+    });
 
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
-
-    if (firstName !== undefined) user.firstName = firstName;
-    if (lastName !== undefined) user.lastName = lastName;
-    if (location !== undefined && Array.isArray(location)) {
-      user.location = location;
-    }
-
-    await user.save();
-
-    return NextResponse.json({ message: "User updated successfully" }, { status: 200 });
-  } catch (error) {
-    console.error("Update error:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(updatedUser);
+  } catch (error: any) {
+    console.error("Update user error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
